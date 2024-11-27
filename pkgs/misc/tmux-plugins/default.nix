@@ -792,6 +792,25 @@ in rec {
     };
   };
 
+  tmux-session-manager = mkTmuxPlugin rec {
+    pluginName = "tmux-session-manager";
+    version = "1.0.3";
+    src = fetchFromGitHub {
+      owner = "PhilVoel";
+      repo = "tmux-session-manager";
+      rev = "v${version}";
+      sha256 = "sha256-smGv1iXcdTuvjwAkbS1JtoWQpupaZAUWSYb1LHMCwHY=";
+    };
+    rtpFilePath = "session_manager.tmux";
+    postInstall = "find $target -type f -print0 | xargs -0 sed -i -e 's|fzf |${pkgs.fzf}/bin/fzf |g'";
+    meta = {
+      homepage = "https://github.com/PhilVoel/tmux-session-manager";
+      description = "Save and restore your tmux sessions, one by one";
+      license = lib.licenses.mit;
+      maintainers = with lib.maintainers; [PhilVoel];
+    };
+  };
+
   tmux-thumbs = pkgs.callPackage ./tmux-thumbs {
     inherit mkTmuxPlugin;
   };
